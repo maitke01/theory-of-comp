@@ -216,7 +216,6 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Game state
         let gameState = {
             health: 100,
             gold: 150,
@@ -237,7 +236,6 @@
             { x: 800, y: 250 }
         ];
 
-        // FSM States for Tower
         const TowerState = {
             IDLE: 'IDLE',
             TARGETING: 'TARGETING',
@@ -245,7 +243,6 @@
             COOLDOWN: 'COOLDOWN'
         };
 
-        // FSM States for Enemy
         const EnemyState = {
             MOVING: 'MOVING',
             ATTACKING_BASE: 'ATTACKING_BASE',
@@ -266,7 +263,6 @@
             }
 
             update(enemies) {
-                // FSM State Machine
                 switch(this.state) {
                     case TowerState.IDLE:
                         this.target = this.findTarget(enemies);
@@ -299,7 +295,7 @@
                         break;
                 }
 
-                // Update projectiles
+                // If a projectile hits an entity, remove it
                 this.projectiles = this.projectiles.filter(p => {
                     p.update();
                     return !p.hit;
@@ -362,7 +358,6 @@
                     ctx.stroke();
                 }
 
-                // Draw projectiles
                 this.projectiles.forEach(p => p.draw());
             }
 
@@ -428,7 +423,6 @@
             }
 
             update() {
-                // FSM State Machine
                 switch(this.state) {
                     case EnemyState.MOVING:
                         this.move();
@@ -515,11 +509,9 @@
             }
         }
 
-        // Game arrays
         let towers = [];
         let enemies = [];
 
-        // Draw path
         function drawPath() {
             ctx.strokeStyle = '#ddd';
             ctx.lineWidth = 40;
@@ -541,7 +533,6 @@
             ctx.fillText('🏰', 765, 30);
         }
 
-        // Game loop
         function gameLoop() {
             if (gameState.gameOver) return;
 
@@ -549,26 +540,22 @@
             
             drawPath();
 
-            // Update and draw towers
             towers.forEach(tower => {
                 tower.update(enemies);
                 tower.draw();
             });
 
-            // Update and draw enemies
             enemies = enemies.filter(enemy => {
                 enemy.update();
                 enemy.draw();
                 return enemy.state !== EnemyState.DEAD;
             });
 
-            // Update enemy count
             document.getElementById('enemies').textContent = enemies.length;
 
             requestAnimationFrame(gameLoop);
         }
 
-        // Place tower
         canvas.addEventListener('click', (e) => {
             if (!gameState.isPlacingTower) return;
             
@@ -591,7 +578,7 @@
             if (!onPath) {
                 towers.push(new Tower(x, y));
                 gameState.gold -= 50;
-                gameState.isPlacingTower = false;
+                gameState.isPlacingTower = gameState.gold >= 50;
                 updateUI();
             }
         });
@@ -605,7 +592,6 @@
             return Math.sqrt((px - nearestX) ** 2 + (py - nearestY) ** 2);
         }
 
-        // Start wave
         function startWave() {
             const enemyCount = 5 + gameState.wave * 2;
             for (let i = 0; i < enemyCount; i++) {
@@ -617,7 +603,6 @@
             updateUI();
         }
 
-        // Update UI
         function updateUI() {
             document.getElementById('health').textContent = gameState.health;
             document.getElementById('gold').textContent = gameState.gold;
@@ -625,7 +610,6 @@
             document.getElementById('buildTower').disabled = gameState.gold < 50;
         }
 
-        // End game
         function endGame(victory) {
             gameState.gameOver = true;
             const gameOverDiv = document.getElementById('gameOver');
@@ -637,7 +621,6 @@
             }
         }
 
-        // Event listeners
         document.getElementById('buildTower').addEventListener('click', () => {
             if (gameState.gold >= 50) {
                 gameState.isPlacingTower = true;
@@ -648,7 +631,6 @@
         document.getElementById('startWave').addEventListener('click', startWave);
         document.getElementById('resetGame').addEventListener('click', () => location.reload());
 
-        // Start game
         updateUI();
         gameLoop();
     </script>
