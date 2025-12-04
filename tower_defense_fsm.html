@@ -23,7 +23,6 @@
 
         .game-container {
             background: white;
-            border-radius: 15px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             padding: 20px;
             max-width: 900px;
@@ -41,7 +40,6 @@
             margin-bottom: 15px;
             padding: 10px;
             background: #f0f0f0;
-            border-radius: 8px;
         }
 
         .info-item {
@@ -64,7 +62,6 @@
 
         canvas {
             border: 3px solid #667eea;
-            border-radius: 8px;
             display: block;
             background: #e8f5e9;
             cursor: crosshair;
@@ -81,7 +78,6 @@
             padding: 12px 24px;
             font-size: 16px;
             border: none;
-            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: bold;
@@ -123,19 +119,6 @@
             transform: none !important;
         }
 
-        .instructions {
-            margin-top: 15px;
-            padding: 15px;
-            background: #fff3cd;
-            border-radius: 8px;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .instructions strong {
-            color: #667eea;
-        }
-
         .game-over {
             position: fixed;
             top: 50%;
@@ -143,7 +126,6 @@
             transform: translate(-50%, -50%);
             background: white;
             padding: 40px;
-            border-radius: 15px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             text-align: center;
             display: none;
@@ -167,7 +149,7 @@
 </head>
 <body>
     <div class="game-container">
-        <h1>🏰 Tower Defense FSM</h1>
+        <h1>Tower Defense</h1>
         
         <div class="game-info">
             <div class="info-item">
@@ -194,15 +176,6 @@
             <button class="btn-primary" id="buildTower">Build Tower (50 Gold)</button>
             <button class="btn-secondary" id="startWave">Start Wave</button>
             <button class="btn-danger" id="resetGame">Reset Game</button>
-        </div>
-
-        <div class="instructions">
-            <strong>How to Play:</strong><br>
-            • Click "Build Tower" then click on the grass to place a tower (costs 50 gold)<br>
-            • Click "Start Wave" to spawn enemies<br>
-            • Towers use FSM: IDLE → TARGETING → FIRING → COOLDOWN → IDLE<br>
-            • Enemies use FSM: MOVING → ATTACKING_BASE → DEAD<br>
-            • Defend your base! Don't let enemies reach the red zone!
         </div>
     </div>
 
