@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tower Defense - FSM Game</title>
+    <title>Tower Defense</title>
     <style>
         * {
             margin: 0;
@@ -186,7 +186,9 @@
     </div>
 
     <script>
+        /** @type {HTMLCanvasElement} */
         const canvas = document.getElementById('gameCanvas');
+        /** @type {CanvasRenderingContext2D} */
         const ctx = canvas.getContext('2d');
 
         let gameState = {
@@ -435,7 +437,7 @@
                 gameState.health -= this.damage;
                 updateUI();
                 if (gameState.health <= 0) {
-                    endGame(false);
+                    endGame();
                 }
             }
 
@@ -583,15 +585,10 @@
             document.getElementById('buildTower').disabled = gameState.gold < 50;
         }
 
-        function endGame(victory) {
+        function endGame() {
             gameState.gameOver = true;
             const gameOverDiv = document.getElementById('gameOver');
             gameOverDiv.classList.add('show');
-            if (victory) {
-                gameOverDiv.classList.add('victory');
-                gameOverDiv.querySelector('h2').textContent = 'Victory!';
-                gameOverDiv.querySelector('p').textContent = 'You defended your base!';
-            }
         }
 
         document.getElementById('buildTower').addEventListener('click', () => {
